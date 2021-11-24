@@ -1,29 +1,45 @@
 #include "get_next_line.h"
 
-// char	*write_line(char *new_line, char )
-// {
-	// new_line = strjoin(new_line, vrmn);
-	// return (new_line);
-// }
+char	*write_line(char *vrmn)
+{
+	int		i;
+	char	*stroka;
+
+	i = 0;
+	stroka = (char *)malloc(sizeof(char) * (ft_strlen(vrmn) + 2));
+	while (stroka && *vrmn != '\n')
+	{
+		stroka[i] = *vrmn;
+		i++;
+		vrmn++;
+	}
+	stroka[i] = '\0';
+	return (stroka);
+}
 
 char	*get_next_line(int fd)
 {
-	static char	*new_line;
-	char	*vrmn;
+	char		*new_line;
+	static char	*buff;
+	char		*vrmn;
 	int			bwr;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	vrmn = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if(!vrmn)
+	vrmn = NULL;
+	buff = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if(!buff)
 		return (NULL);
-	while (!(ft_strchr(vrmn, '\n')) && vrmn)
+	while (!(ft_strchr(buff, '\n')) && buff)
 	{
-		bwr = read(fd, vrmn, BUFFER_SIZE);
-		vrmn[bwr] = '\0';
-		new_line = ft_strjoin(new_line, vrmn);
-		vrmn = NULL;
+		bwr = read(fd, buff, BUFFER_SIZE);
+		buff[bwr] = '\0';
+		vrmn = ft_strjoin(vrmn, buff);
+		if (!vrmn)
+			return (NULL);
+		free(buff);
 	}
+	new_line = write_line(vrmn);
 	return (new_line);
 }
 
