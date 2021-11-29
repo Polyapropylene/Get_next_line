@@ -1,6 +1,7 @@
 #include "get_next_line.h"
+#include <string.h>
 
-char	*write_line(char *vrmn)
+char	*write_line(char *stat)
 {
 	int		i;
 	int		n;
@@ -8,35 +9,29 @@ char	*write_line(char *vrmn)
 
 	i = 0;
 	n = 0;
-	while (vrmn && ft_strchr(vrmn, '\n') != 0)
+	while (stat && ft_strchr(stat, '\n') != 0)
 		i++;
 	stroka = (char *)malloc(sizeof(char) * (i + 2));
 	if (!stroka)
 		return (NULL);
-	while (stroka && *vrmn != '\n' && n <= i)
+	while (stroka && *stat != '\n' && n < (i + 1))
 	{
-		stroka[n] = *vrmn;
+		stroka[n] = stat[n];
 		n++;
-		vrmn++;
 	}
 	stroka[n] = '\0';
-	stroka[n + 1] = '\n';
+	if (stroka[0] == '\0')
+	{
+		free(stroka);
+		return (NULL);
+	}
 	return (stroka);
 }
 
-char	*get_next_line(int fd)
+char	*make_stat(char *stat, char *buff, int fd)
 {
-	char		*new_line;
-	static char	*buff;
-	char		*vrmn;
-	int			bwr;
-
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	vrmn = NULL;
-	buff = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if(!buff)
-		return (NULL);
+	int	bwr;
+	char	*vrmn;
 	while (!(ft_strchr(buff, '\n')) && buff)
 	{
 		bwr = read(fd, buff, BUFFER_SIZE);
@@ -46,19 +41,39 @@ char	*get_next_line(int fd)
 			return (NULL);
 		}
 		buff[bwr] = '\0';
-		vrmn = ft_strjoin(vrmn, buff);
-		if (!vrmn)
-			return (NULL);
+		if (!stat)
+			stat = ft_strdup("");
+		vrmn = stat;
+		stat = ft_strjoin(vrmn, buff);
+		free(vrmn);
 	}
 	free(buff);
-	new_line = write_line(vrmn);
+	return (stat);
+}
+
+char	*get_next_line(int fd)
+{
+	char		*new_line;
+	char		*buff;
+	static char	*stat;	
+
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	stat = NULL;
+	buff = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if(!buff)
+		return (NULL);
+	stat = make_stat(stat, buff, fd);
+	if(!stat)
+		return (NULL);
+	new_line = write_line(stat);
 	return (new_line);
 }
 
-#include <fcntl.h>
+/*#include <fcntl.h>
 #include <stdio.h>
 
-/*int	main ()
+int	main ()
 {
 	int		fd;
 	char	*new_line;
