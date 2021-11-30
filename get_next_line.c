@@ -14,7 +14,7 @@ char	*write_line(char *stat)
 	stroka = (char *)malloc(sizeof(char) * (i + 2));
 	if (!stroka)
 		return (NULL);
-	while (stroka && *stat != '\n' && n < (i + 1))
+	while (stroka && stat[n] != '\n' && n < (i + 1))
 	{
 		stroka[n] = stat[n];
 		n++;
@@ -28,11 +28,40 @@ char	*write_line(char *stat)
 	return (stroka);
 }
 
-char	*make_stat(char *stat, char *buff, int fd)
+static char	*new_stat(char *stat)
 {
-	int	bwr;
+	char	*newstat;
+	int		i;
+	size_t	n;
+
+	i = 0;
+	n = 0;
+	while (stat && stat[i] != '\n')
+		i++;
+	if (stat[i] == '\0')
+	{
+		free(stat);
+		return (NULL);
+	}
+	newstat = (char *)malloc(sizeof(char) * (ft_strlen(stat) - i + 2));
+	if (!newstat)
+	return (NULL);
+	while (stat && n < (ft_strlen(stat) - i + 2))
+	{
+		newstat[n] = stat[n];
+		n++;
+	}
+	free (stat);
+	return (newstat);
+}
+
+static char	*make_stat(char *stat, char *buff, int fd)
+{
+	int		bwr;
 	char	*vrmn;
-	while (!(ft_strchr(buff, '\n')) && buff)
+
+	bwr = 1;
+	while (ft_strchr(buff, '\n') != 0 && buff)
 	{
 		bwr = read(fd, buff, BUFFER_SIZE);
 		if (bwr == -1)
@@ -53,21 +82,22 @@ char	*make_stat(char *stat, char *buff, int fd)
 
 char	*get_next_line(int fd)
 {
-	char		*new_line;
+	char		*newline;
 	char		*buff;
 	static char	*stat;	
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	stat = NULL;
+	newline = NULL;
 	buff = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if(!buff)
 		return (NULL);
 	stat = make_stat(stat, buff, fd);
 	if(!stat)
 		return (NULL);
-	new_line = write_line(stat);
-	return (new_line);
+	newline = write_line(stat);
+	stat = new_stat(stat);
+	return (newline);
 }
 
 /*#include <fcntl.h>
