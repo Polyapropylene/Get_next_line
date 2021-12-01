@@ -74,16 +74,19 @@ char	*ft_strdup(const char *s1)
 	return (s2);
 }
 
-void	ft_bzero(void *s, size_t n)
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-	char	*c;
-	size_t	t;
+	size_t	i;
 
-	t = 0;
-	c = s;
-	while (t < n)
+	i = 0;
+	if (dstsize > 0)
 	{
-		c[t] = '\0';
-		t++;
+		while (src[i] && i < dstsize - 1)
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
 	}
+	return (ft_strlen(src));
 }

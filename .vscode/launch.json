@@ -30,7 +30,9 @@
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
       "request": "launch",
-      "args": [],
+      "args": [
+        ""
+      ],
       "stopAtEntry": true,
       "cwd": "/Users/rrhyhorn/Desktop/Get_next_line",
       "environment": [],
