@@ -13,7 +13,7 @@ static char	*write_line(char *stat)
 	char	*stroka;
 
 	i = 0;
-	while (stat && ft_strchr(stat, '\n') != 0)
+	while (stat[i] != '\n' || stat[i])
 		i++;
 	stroka = (char *)malloc(sizeof(char) * (i + 2));
 	if (!stroka)
@@ -50,7 +50,7 @@ static char	*make_stat(char *stat, char *buff, int fd)
 	char	*vrmn;
 
 	bwr = 1;
-	while (ft_strchr(buff, '\n') != 0 && buff)
+	while (bwr > 0)
 	{
 		bwr = read(fd, buff, BUFFER_SIZE);
 		if (bwr == -1)
@@ -61,6 +61,8 @@ static char	*make_stat(char *stat, char *buff, int fd)
 		vrmn = stat;
 		stat = ft_strjoin(vrmn, buff);
 		free(vrmn);
+		if (ft_strchr(buff, '\n'))
+			bwr = 0;
 	}
 	free(buff);
 	return (stat);
@@ -86,7 +88,7 @@ char	*get_next_line(int fd)
 	return (newline);
 }
 
-/*#include <fcntl.h>
+#include <fcntl.h>
 #include <stdio.h>
 
 int	main ()
@@ -99,4 +101,3 @@ int	main ()
 	printf("%s\n", new_line);
 	return (0);
 }
-*/

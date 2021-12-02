@@ -5,7 +5,7 @@
       "name": "(lldb) Запустить",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/${workspaceFolderBasename}",
+      "program": "${workspaceFolder}/test",
       "args": [],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
