@@ -28,18 +28,18 @@
     },
     {
       "name": "C/C++ Runner: Debug Session",
-      "type": "cppdbg",
+      "type": "lldb",
       "request": "launch",
       "args": [
         ""
       ],
       "stopAtEntry": true,
-      "cwd": "/Users/rrhyhorn/Desktop/Get_next_line",
+      "cwd": "/Users/polechkagadukina/Desktop/Get_next_line_42",
       "environment": [],
-      "program": "/Users/rrhyhorn/Desktop/Get_next_line/build/Debug/outDebug",
+      "program": "/Users/polechkagadukina/Desktop/Get_next_line_42/build/Debug/outDebug",
       "internalConsoleOptions": "openOnSessionStart",
       "MIMode": "lldb",
-      "externalConsole": true
+      "externalConsole": false
     }
   ]
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrhyhorn <rrhyhorn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rrhyhorn <rrhyhorn@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 20:29:21 by rrhyhorn          #+#    #+#             */
-/*   Updated: 2021/12/06 20:34:25 by rrhyhorn         ###   ########.fr       */
+/*   Updated: 2022/04/22 19:57:39 by rrhyhorn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,12 @@
 
 char	*get_next_line(int fd);
 
+// utils
+
 char	*ft_strjoin(char const *s1, char const *s2);
-
 size_t	ft_strlen(const char *c);
-
 char	*ft_strchr(const char *s, int c);
-
 char	*ft_strdup(const char *s1);
-
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 
 #endif
